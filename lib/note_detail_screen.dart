@@ -3,8 +3,13 @@ import 'note.dart';
 
 class NoteDetailScreen extends StatefulWidget {
   final Note? note;
+  final bool isDarkMode;
 
-  NoteDetailScreen({this.note});
+  const NoteDetailScreen({
+    Key? key,
+    this.note,
+    required this.isDarkMode,
+  }) : super(key: key);
 
   @override
   _NoteDetailScreenState createState() => _NoteDetailScreenState();
@@ -24,49 +29,61 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Detalle de Nota'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: Icon(Icons.save),
+    return MaterialApp(
+      theme: widget.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
-                final newNote = Note(
-                  title: _titleController.text,
-                  content: _contentController.text,
-                );
-                Navigator.pop(context, newNote);
+                Navigator.pop(context);
               },
             ),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: 'Título'),
-            ),
-            SizedBox(height: 16.0),
-            // Utilizamos un Container con un tamaño específico para el contenido
-            Container(
-              height: 300,
-              child: TextField(
-                controller: _contentController,
-                decoration: InputDecoration(
-                  labelText: 'Contenido',
-                  border: OutlineInputBorder(),
+            title: Text(''),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.save),
+                  onPressed: () {
+                    final newNote = Note(
+                      title: _titleController.text,
+                      content: _contentController.text,
+                    );
+                    Navigator.pop(context, newNote);
+                  },
                 ),
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
               ),
-            ),
-          ],
+            ],
+          ),
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(labelText: 'Título'),
+              ),
+              SizedBox(height: 25.0),
+              // Utilizamos un Container con un tamaño específico para el contenido
+              Container(
+                height: 300,
+                child: TextField(
+                  controller: _contentController,
+                  decoration: InputDecoration(
+                    labelText: '',
+                  ),
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
