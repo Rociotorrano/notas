@@ -76,7 +76,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                 child: TextField(
                   controller: _contentController,
                   decoration: InputDecoration(
-                    labelText: '',
+                    labelText: 'Descripción',
+                    border: InputBorder.none,
                   ),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
